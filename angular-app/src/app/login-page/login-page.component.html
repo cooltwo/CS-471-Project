@@ -1,0 +1,12 @@
+<h1>Computer Science Tutoring System</h1>
+<hr>
+<div class="container">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <label for="username">Username </label><input type="text" id="username" formControlName="username"><br>
+        <label for="password">Password </label><input type="password" id="password" formControlName="password"><br>
+        <button type="submit" class="login-button" [disabled]="!loginForm.valid">Login</button><br>
+    </form>
+    <button class="fancy-button" routerLink="/signup-student">Signup as Student</button><br>
+    <button class="fancy-button" routerLink="/signup-tutor">Signup as Tutor</button>
+</div>

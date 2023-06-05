@@ -1,0 +1,117 @@
+<div class="container">
+    <h1>Session Scheduler</h1>
+    <hr>
+    <div [hidden]="courseSelectionHidden">
+        <h2>Select Course</h2>
+        <div class="list-container">
+            <ul>
+                <li><mat-checkbox>Course 1</mat-checkbox></li>
+                <li><mat-checkbox>Course 2</mat-checkbox></li>
+                <li><mat-checkbox>Course 3</mat-checkbox></li>
+            </ul>
+        </div>
+        <button (click)="selectAuto()">Auto Schedule</button>
+        <button (click)="selectManual()">Manual Schedule</button>
+    </div>
+    <div [hidden]="tutorSelectionHidden">
+        <h2>Select Tutor</h2>
+        <div class="list-container">
+            <ul>
+                <li><mat-checkbox>Tutor 1</mat-checkbox></li>
+                <li><mat-checkbox>Tutor 2</mat-checkbox></li>
+                <li><mat-checkbox>Tutor 3</mat-checkbox></li>
+            </ul>
+        </div>
+        <button (click)="selectTutor()">Confirm</button>
+    </div>
+    <div [hidden]="timeSelectionHidden">
+        <h2>Select Time</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+            <tr>
+                <td>12AM-1AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>1AM-2AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>2AM-3AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>3AM-4AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>4AM-5AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>5AM-6AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>6AM-7AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>7AM-8AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>8AM-9AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>9AM-10AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>10AM-11AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>11AM-12PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>12PM-1PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>1PM-2PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>2PM-3PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>3PM-4PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>4PM-5PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>5PM-6PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>6PM-7PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>7PM-8PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>8PM-9PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>9PM-10PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>10PM-11PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            <tr>
+                <td>11PM-12AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
+            </tr>
+        </table>
+        <br>
+        <button (click)="selectTime()">Confirm</button>
+    </div>
+    <hr>
+</div>
