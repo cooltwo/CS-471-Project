@@ -13,7 +13,7 @@ export class AccountInformationPageComponent {
 
   resumeHidden = true;
   coursesCheck = [
-    {course: "filler", checked: false},
+    {course: "", checked: false},
   ]
 
   constructor(private currentUserService: CurrentUserService, private http: HttpClient, private router: Router) {
@@ -28,30 +28,30 @@ export class AccountInformationPageComponent {
         for(let i = 0; i < json.courses.length; i++) {
           this.coursesCheck.push({course: json.courses[i], checked: false})
         }
+        this.coursesCheck.shift();
+
+        let sendJson = {
+          username: this.currentUserService.username
+        };
+        this.http.post('/api/getAccountInfo', sendJson).subscribe(response => {
+          let json = JSON.parse(JSON.stringify(response))
+          console.log(json);
+          if(json.response == "success") {
+            for(let i = 0; i < json.courses.length; i++) {
+              for(let j = 0; j < this.coursesCheck.length; j++) {
+                if(json.courses[i] == this.coursesCheck[j].course) {
+                  this.coursesCheck[j].checked = true;
+                }
+              }
+            }
+            let updateJson = {
+              availableTimes: json.availableTimes
+            }
+            this.accountInfoForm.setValue(updateJson);
+          }
+        })
       }
     });
-    this.coursesCheck.shift();
-
-    let sendJson = {
-      username: this.currentUserService.username
-    };
-    this.http.post('/api/getAccountInfo', sendJson).subscribe(response => {
-      let json = JSON.parse(JSON.stringify(response))
-      console.log(json);
-      if(json.response == "success") {
-        for(let i = 0; i < json.courses.length; i++) {
-          for(let j = 0; j < this.coursesCheck.length; j++) {
-            if(json.courses[i] == this.coursesCheck[j].course) {
-              this.coursesCheck[j].checked = true;
-            }
-          }
-        }
-        let updateJson = {
-          availableTimes: json.availableTimes
-        }
-        this.accountInfoForm.setValue(updateJson);
-      }
-    })
   }
 
   availableTimes = new FormGroup({

@@ -14,8 +14,8 @@ export class LoginPageComponent {
   constructor(private router: Router, private http: HttpClient, private currentUserService: CurrentUserService) {}
 
   loginForm = new FormGroup({
-    username: new FormControl('', Validators.maxLength(16)),
-    password: new FormControl('', Validators.maxLength(16))
+    username: new FormControl('', [Validators.maxLength(16), Validators.required]),
+    password: new FormControl('', [Validators.maxLength(16), Validators.required])
   });
 
   login(){
@@ -27,6 +27,6 @@ export class LoginPageComponent {
         this.currentUserService.userType = json.userType;
         this.router.navigateByUrl('/home');
       }
-    })
+    });
   }
 }

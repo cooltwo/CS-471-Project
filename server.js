@@ -89,12 +89,29 @@ app.post('/api/resumeUpload', (req,res) => {
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     }
-    req.files.resume.mv(dir + req.files.resume.name, function(err) {
+    req.files.resume.mv(dir + "resume.pdf", function(err) {
         if(err) {
             res.json({response: "could not upload: " + err});
         }
         else {
-            res.json({response: "success"});
+            let userInfoFileName = "database/userinfo/" + req.body.username + ".json";
+            fs.readFile(userInfoFileName, (err, data) => {
+                if(err) {
+                    res.json({response: "could not find userinfo file"});
+                }
+                else {
+                    let fileJson = JSON.parse(data);
+                    fileJson.userFiles.push("resume.pdf")
+                    fs.writeFile(userInfoFileName, JSON.stringify(fileJson, null, 2), function writeJSON(err) {
+                        if(err) {
+                            res.json({response: "could not write to file"});
+                        }
+                        else {
+                            res.json({response: "success"});
+                        }
+                    });
+                }
+            });
         }
     });
 });
@@ -107,22 +124,20 @@ app.post('/api/newstudent', (req,res) => {
    if (!fs.existsSync(user_path))
    {
        data = {username:req.body.username, password:req.body.password, userType:0};
-       firstWriteSuccess = false;
-       fs.writeFile(user_path, data, err => {
-           if(err)
-           { res.json({response: "cannot create file"}) }
-           else
-           { firstWriteSuccess = true }
+       fs.writeFile(user_path, JSON.stringify(data, null, 2), err => {
+            if(err) { 
+                res.json({response: "cannot create file"}) 
+            }
+            else { 
+                data = {username:req.body.username, userType:0, courses:[], userFiles:[], sessions:[], available:AVAILABLE_INIT_ARRAY};
+                fs.writeFile(info_path, JSON.stringify(data, null, 2), err => {
+                    if(err)
+                    { res.json({response: "cannot create file"}) }
+                    else
+                    { res.json({response: "approved", username:req.body.username, userType:0}) }
+                });
+            }
        });
-       if (firstWriteSuccess) {
-           data = {username:req.body.username, usertype:0, courses:[], userfiles:[], sessions:[], available:AVAILABLE_INIT_ARRAY};
-           fs.writeFile(info_path, data, err => {
-               if(err)
-               { res.json({response: "cannot create file"}) }
-               else
-               { res.json({response: "approved", username:req.body.username, userType:0}) }
-           });
-       }
    }
    else
    { res.json({response: "already exists"}) }
@@ -133,23 +148,21 @@ app.post('/api/newtutor', (req,res) => {
    info_path = "database/userinfo/" + req.body.username + ".json";
    if (!fs.existsSync(user_path))
    {
-       data = {username:req.body.username, password:req.body.password, userType:1};
-       firstWriteSuccess = false;
-       fs.writeFile(user_path, data, err => {
-           if(err)
-           { res.json({response: "cannot create file"}) }
-           else
-           { firstWriteSuccess = true }
-       });
-       if (firstWriteSuccess) {
-           data = {username:req.body.username, usertype:1, courses:[], userfiles:[], sessions:[], available:AVAILABLE_INIT_ARRAY};
-           fs.writeFile(info_path, data, err => {
-               if(err)
-               { res.json({response: "cannot create file"}) }
-               else
-               { res.json({response: "approved", username:req.body.username, userType:1}) }
-           });
-       }
+        data = {username:req.body.username, password:req.body.password, userType:1};
+        fs.writeFile(user_path, JSON.stringify(data, null, 2), err => {
+            if(err) { 
+                res.json({response: "cannot create file"}) 
+            }
+            else { 
+                data = {username:req.body.username, userType:1, courses:[], userFiles:[], sessions:[], available:AVAILABLE_INIT_ARRAY};
+                fs.writeFile(info_path, JSON.stringify(data, null, 2), err => {
+                    if(err)
+                    { res.json({response: "cannot create file"}) }
+                    else
+                    { res.json({response: "approved", username:req.body.username, userType:1}) }
+                });
+            }
+        });
    }
    else
    { res.json({response: "already exists"}) }
