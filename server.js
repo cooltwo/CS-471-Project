@@ -173,16 +173,11 @@ app.post('/api/tutorsForCourse', (req,res) => {
     if (fs.existsSync(course_path)){
         tutors_list = [];
         fs.readdirSync('database/userinfo/').forEach(file => {
-            fs.readFile(file, (err, data) => {
-                if(err)
-                { res.json({response: "this function was probably made incorrectly"}) }
-                else {
-                    dataJSON = JSON.parse(data);
-                    if (dataJSON.usertype == 1 && dataJSON.courses.includes(req.body.course)) {
-                        tutors_list.push(dataJSON.username)
-                    }
-                }
-            });
+            data = fs.readFileSync('database/userinfo/' + file)
+            dataJSON = JSON.parse(data);
+            if (dataJSON.userType == 1 && dataJSON.courses.includes(req.body.course)) {
+                tutors_list.push(dataJSON.username)
+            }
         });
         if (tutors_list.length == 0)
         { res.json({response: "no tutors found for course"}) }
@@ -200,7 +195,7 @@ app.post('/api/myCourses', (req,res) => {
         { res.json({response: "user not found"}) }
         else {
             dataJSON = JSON.parse(data);
-            res.json({response:"success", courses:dataJSON.courses.stringify()})
+            res.json({response:"success", courses:dataJSON.courses})
         }
     });
 });
@@ -252,22 +247,22 @@ app.post('/api/createScheduledSession', (req,res) => {
                         else {
                             studentJSON = JSON.parse(data_student);
                             tutorJSON = JSON.parse(data_tutor);
-                            studentJSON.available[s_day][s_hour] = False;
-                            tutorJSON.available[s_day][s_hour] = False;
+                            studentJSON.available[s_day][s_hour] = false;
+                            tutorJSON.available[s_day][s_hour] = false;
                             studentJSON.sessions.push(next_id);
                             tutorJSON.sessions.push(next_id);
                             
                             session_obj = {session_id:next_id, userlist:[req.body.studentname, req.body.tutorname], day_of_week:s_day, time_start:s_hour, time_end:((s_hour + 1) % 24)};
-                            session_path = "database/sessions/" + next_id.toString() + ".json"
-                            fs.writeFile(session_path, JSON.stringify(session_obj, null, 2)), err => {
+                            session_path = "database/sessions/" + next_id.toString() + ".json";
+                            fs.writeFile(session_path, JSON.stringify(session_obj, null, 2), err => {
                                 if (err)
                                 { res.json({response: "cannot create session"}) }
                                 else {
-                                    writeFileSync(student_path, JSON.stringify(studentJSON, null, 2));
-                                    writeFileSync(tutor_path, JSON.stringify(tutorJSON, null, 2));
-                                    { res.json({response: "success"}) }
+                                    fs.writeFileSync(student_path, JSON.stringify(studentJSON, null, 2));
+                                    fs.writeFileSync(tutor_path, JSON.stringify(tutorJSON, null, 2));
+                                    res.json({response: "success"});
                                 }
-                            }
+                            });
                         }
                     });
                 }
@@ -279,7 +274,7 @@ app.post('/api/createScheduledSession', (req,res) => {
 app.post("/api/getNextSession", (req,res) => {
     current_time = new Date();
     trg_day = current_time.getDay();
-    trg_hour = current_time.getHour();
+    trg_hour = current_time.getHours();
     user_path = "database/userinfo/" + req.body.username + ".json";
     fs.readFile(user_path, (err, data) => {
         if (err)
@@ -291,31 +286,25 @@ app.post("/api/getNextSession", (req,res) => {
             else {
                 best_min = null;
                 best_min_score = (7 * 24) + 24;
-                no_errors = true;
                 user_info.sessions.forEach(session => {
                     session_path = "database/sessions/" + session + ".json";
-                    fs.readFile(session_path, (err, curr_data) => {
-                        if (err)
-                        { res.json({response: "possible bad session id"}) }
-                        else {
-                            sessionJSON = JSON.parse(curr_data);
-                            curr_day = parseInt(sessionJSON.day_of_week);
-                            curr_hour = parseInt(sessionJSON.time_start);
-                            diff_day = trg_day - curr_day;
-                            if (diff_day < 0)
-                            { diff_day = 7 + diff_day; }
-                            diff_hour = trg_hour - curr_hour;
-                            if (diff_hour < 0)
-                            { diff_hour = 7 + diff_hour; }
-                            curr_score = (diff_day * 24) + diff_hour;
-                            if (curr_score < best_min_score) {
-                                best_min_score = curr_score;
-                                best_min = { ...sessionJSON };  // I think this will clone it (?)
-                            }
-                        }
-                    });
+                    curr_data = fs.readFileSync(session_path)
+                    sessionJSON = JSON.parse(curr_data);
+                    curr_day = parseInt(sessionJSON.day_of_week);
+                    curr_hour = parseInt(sessionJSON.time_start);
+                    diff_day = trg_day - curr_day;
+                    if (diff_day < 0)
+                    { diff_day = 7 + diff_day; }
+                    diff_hour = trg_hour - curr_hour;
+                    if (diff_hour < 0)
+                    { diff_hour = 7 + diff_hour; }
+                    curr_score = (diff_day * 24) + diff_hour;
+                    if (curr_score < best_min_score) {
+                        best_min_score = curr_score;
+                        best_min = { ...sessionJSON };  // I think this will clone it (?)
+                    }
                 });
-                res.json({response:"success", session_info:sessionJSON})
+                res.json({response:"success", session_info:best_min})
             }
         }
     });

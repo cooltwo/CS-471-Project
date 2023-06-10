@@ -1,12 +1,12 @@
 <div class="container">
     <div class="next-session-container">
         <h2>Next Session</h2>
-        <p>Time: Monday 1pm</p>
-        <button class="enter-session-button">Enter Session</button>
+        <p>{{sessionDayOfWeek}}{{sessionTime}}</p>
+        <div [hidden]="enterSessionHidden"><button class="enter-session-button">Enter Session</button></div>
+        <br>
     </div>
     <div class="button-container">
-        <button routerLink="account-information">Manage Account Information</button>
-        <br><br>
-        <button routerLink="session-scheduler">Schedule Session</button>
+        <div [hidden]="manageAccountInfoHidden"><button routerLink="account-information">Manage Account Information</button><br><br></div>
+        <div [hidden]="scheduleSessionHidden"><button routerLink="session-scheduler">Schedule Session</button><br><br></div>
     </div>
 </div>

@@ -16,6 +16,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { SessionSchedulerPageComponent } from './session-scheduler-page/session-scheduler-page.component'; 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClassContentPageComponent } from './class-content-page/class-content-page.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomePageComponent,
     TopBarComponent,
     AccountInformationPageComponent,
-    SessionSchedulerPageComponent
+    SessionSchedulerPageComponent,
+    ClassContentPageComponent
   ],
   imports: [
     BrowserModule,

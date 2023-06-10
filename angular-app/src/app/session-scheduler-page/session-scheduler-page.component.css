@@ -17,20 +17,6 @@ h2 {
     font-size: 40px;
 }
 
-mat-checkbox {
-    font-size: 30px;
-}
-
-.list-container {
-    text-align: left;
-    width: 20%;
-    margin: auto;
-}
-
-ul {
-    list-style-type: none;
-}
-
 button {
     font-size: 20px;
     padding: 9px 18px;
@@ -48,4 +34,19 @@ td, th {
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: center;
+}
+
+.radio-selection-container {
+    margin: auto;
+    width: 15%;
+}
+
+.radio-selection {
+    color: white;
+    font-size: 25px;
+    line-height: 1.5;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
 }

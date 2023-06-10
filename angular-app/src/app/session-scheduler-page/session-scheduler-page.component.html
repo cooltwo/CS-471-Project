@@ -2,114 +2,114 @@
     <h1>Session Scheduler</h1>
     <hr>
     <div [hidden]="courseSelectionHidden">
-        <h2>Select Course</h2>
-        <div class="list-container">
-            <ul>
-                <li><mat-checkbox>Course 1</mat-checkbox></li>
-                <li><mat-checkbox>Course 2</mat-checkbox></li>
-                <li><mat-checkbox>Course 3</mat-checkbox></li>
-            </ul>
-        </div>
-        <button (click)="selectAuto()">Auto Schedule</button>
-        <button (click)="selectManual()">Manual Schedule</button>
+        <form [formGroup]="courseSelectionForm">
+            <h2>Select Course</h2>
+            <div *ngFor="let course of courses; let i=index" class="radio-selection-container">
+                <label class="radio-selection"><input type="radio" formControlName="course" [value]="course"> {{course}}</label>
+            </div>
+            <br><br>
+            <button (click)="selectAuto()">Auto Schedule</button>
+            <button (click)="selectManual()">Manual Schedule</button>
+        </form>
     </div>
     <div [hidden]="tutorSelectionHidden">
-        <h2>Select Tutor</h2>
-        <div class="list-container">
-            <ul>
-                <li><mat-checkbox>Tutor 1</mat-checkbox></li>
-                <li><mat-checkbox>Tutor 2</mat-checkbox></li>
-                <li><mat-checkbox>Tutor 3</mat-checkbox></li>
-            </ul>
-        </div>
-        <button (click)="selectTutor()">Confirm</button>
+        <form [formGroup]="tutorSelectionForm">
+            <h2>Select Tutor</h2>
+            <div *ngFor="let tutor of tutors; let i=index" class="radio-selection-container">
+                <label class="radio-selection"><input type="radio" formControlName="tutor" [value]="tutor"> {{tutor}}</label>
+            </div>
+            <br><br>
+            <button (click)="selectTutor()">Confirm</button>
+        </form>
     </div>
     <div [hidden]="timeSelectionHidden">
         <h2>Select Time</h2>
-        <table>
-            <tr>
-                <th></th>
-                <th>Sunday</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-            </tr>
-            <tr>
-                <td>12AM-1AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>1AM-2AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>2AM-3AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>3AM-4AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>4AM-5AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>5AM-6AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>6AM-7AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>7AM-8AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>8AM-9AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>9AM-10AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>10AM-11AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>11AM-12PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>12PM-1PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>1PM-2PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>2PM-3PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>3PM-4PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>4PM-5PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>5PM-6PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>6PM-7PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>7PM-8PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>8PM-9PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>9PM-10PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>10PM-11PM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-            <tr>
-                <td>11PM-12AM</td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td><td><mat-checkbox></mat-checkbox></td>
-            </tr>
-        </table>
+        <form [formGroup]="timeSelectionForm"><form [formGroup]="availableTimes">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Sunday</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+                <tr>
+                    <td>0:00</td><td><input type="checkbox" formControlName="sunday0"></td><td><input type="checkbox" formControlName="monday0"></td><td><input type="checkbox" formControlName="tuesday0"></td><td><input type="checkbox" formControlName="wednesday0"></td><td><input type="checkbox" formControlName="thursday0"></td><td><input type="checkbox" formControlName="friday0"></td><td><input type="checkbox" formControlName="saturday0"></td>
+                </tr>
+                <tr>
+                    <td>1:00</td><td><input type="checkbox" formControlName="sunday1"></td><td><input type="checkbox" formControlName="monday1"></td><td><input type="checkbox" formControlName="tuesday1"></td><td><input type="checkbox" formControlName="wednesday1"></td><td><input type="checkbox" formControlName="thursday1"></td><td><input type="checkbox" formControlName="friday1"></td><td><input type="checkbox" formControlName="saturday1"></td>
+                </tr>
+                <tr>
+                    <td>2:00</td><td><input type="checkbox" formControlName="sunday2"></td><td><input type="checkbox" formControlName="monday2"></td><td><input type="checkbox" formControlName="tuesday2"></td><td><input type="checkbox" formControlName="wednesday2"></td><td><input type="checkbox" formControlName="thursday2"></td><td><input type="checkbox" formControlName="friday2"></td><td><input type="checkbox" formControlName="saturday2"></td>
+                </tr>
+                <tr>
+                    <td>3:00</td><td><input type="checkbox" formControlName="sunday3"></td><td><input type="checkbox" formControlName="monday3"></td><td><input type="checkbox" formControlName="tuesday3"></td><td><input type="checkbox" formControlName="wednesday3"></td><td><input type="checkbox" formControlName="thursday3"></td><td><input type="checkbox" formControlName="friday3"></td><td><input type="checkbox" formControlName="saturday3"></td>
+                </tr>
+                <tr>
+                    <td>4:00</td><td><input type="checkbox" formControlName="sunday4"></td><td><input type="checkbox" formControlName="monday4"></td><td><input type="checkbox" formControlName="tuesday4"></td><td><input type="checkbox" formControlName="wednesday4"></td><td><input type="checkbox" formControlName="thursday4"></td><td><input type="checkbox" formControlName="friday4"></td><td><input type="checkbox" formControlName="saturday4"></td>
+                </tr>
+                <tr>
+                    <td>5:00</td><td><input type="checkbox" formControlName="sunday5"></td><td><input type="checkbox" formControlName="monday5"></td><td><input type="checkbox" formControlName="tuesday5"></td><td><input type="checkbox" formControlName="wednesday5"></td><td><input type="checkbox" formControlName="thursday5"></td><td><input type="checkbox" formControlName="friday5"></td><td><input type="checkbox" formControlName="saturday5"></td>
+                </tr>
+                <tr>
+                    <td>6:00</td><td><input type="checkbox" formControlName="sunday6"></td><td><input type="checkbox" formControlName="monday6"></td><td><input type="checkbox" formControlName="tuesday6"></td><td><input type="checkbox" formControlName="wednesday6"></td><td><input type="checkbox" formControlName="thursday6"></td><td><input type="checkbox" formControlName="friday6"></td><td><input type="checkbox" formControlName="saturday6"></td>
+                </tr>
+                <tr>
+                    <td>7:00</td><td><input type="checkbox" formControlName="sunday7"></td><td><input type="checkbox" formControlName="monday7"></td><td><input type="checkbox" formControlName="tuesday7"></td><td><input type="checkbox" formControlName="wednesday7"></td><td><input type="checkbox" formControlName="thursday7"></td><td><input type="checkbox" formControlName="friday7"></td><td><input type="checkbox" formControlName="saturday7"></td>
+                </tr>
+                <tr>
+                    <td>8:00</td><td><input type="checkbox" formControlName="sunday8"></td><td><input type="checkbox" formControlName="monday8"></td><td><input type="checkbox" formControlName="tuesday8"></td><td><input type="checkbox" formControlName="wednesday8"></td><td><input type="checkbox" formControlName="thursday8"></td><td><input type="checkbox" formControlName="friday8"></td><td><input type="checkbox" formControlName="saturday8"></td>
+                </tr>
+                <tr>
+                    <td>9:00</td><td><input type="checkbox" formControlName="sunday9"></td><td><input type="checkbox" formControlName="monday9"></td><td><input type="checkbox" formControlName="tuesday9"></td><td><input type="checkbox" formControlName="wednesday9"></td><td><input type="checkbox" formControlName="thursday9"></td><td><input type="checkbox" formControlName="friday9"></td><td><input type="checkbox" formControlName="saturday9"></td>
+                </tr>
+                <tr>
+                    <td>10:00</td><td><input type="checkbox" formControlName="sunday10"></td><td><input type="checkbox" formControlName="monday10"></td><td><input type="checkbox" formControlName="tuesday10"></td><td><input type="checkbox" formControlName="wednesday10"></td><td><input type="checkbox" formControlName="thursday10"></td><td><input type="checkbox" formControlName="friday10"></td><td><input type="checkbox" formControlName="saturday10"></td>
+                </tr>
+                <tr>
+                    <td>11:00</td><td><input type="checkbox" formControlName="sunday11"></td><td><input type="checkbox" formControlName="monday11"></td><td><input type="checkbox" formControlName="tuesday11"></td><td><input type="checkbox" formControlName="wednesday11"></td><td><input type="checkbox" formControlName="thursday11"></td><td><input type="checkbox" formControlName="friday11"></td><td><input type="checkbox" formControlName="saturday11"></td>
+                </tr>
+                <tr>
+                    <td>12:00</td><td><input type="checkbox" formControlName="sunday12"></td><td><input type="checkbox" formControlName="monday12"></td><td><input type="checkbox" formControlName="tuesday12"></td><td><input type="checkbox" formControlName="wednesday12"></td><td><input type="checkbox" formControlName="thursday12"></td><td><input type="checkbox" formControlName="friday12"></td><td><input type="checkbox" formControlName="saturday12"></td>
+                </tr>
+                <tr>
+                    <td>13:00</td><td><input type="checkbox" formControlName="sunday13"></td><td><input type="checkbox" formControlName="monday13"></td><td><input type="checkbox" formControlName="tuesday13"></td><td><input type="checkbox" formControlName="wednesday13"></td><td><input type="checkbox" formControlName="thursday13"></td><td><input type="checkbox" formControlName="friday13"></td><td><input type="checkbox" formControlName="saturday13"></td>
+                </tr>
+                <tr>
+                    <td>14:00</td><td><input type="checkbox" formControlName="sunday14"></td><td><input type="checkbox" formControlName="monday14"></td><td><input type="checkbox" formControlName="tuesday14"></td><td><input type="checkbox" formControlName="wednesday14"></td><td><input type="checkbox" formControlName="thursday14"></td><td><input type="checkbox" formControlName="friday14"></td><td><input type="checkbox" formControlName="saturday14"></td>
+                </tr>
+                <tr>
+                    <td>15:00</td><td><input type="checkbox" formControlName="sunday15"></td><td><input type="checkbox" formControlName="monday15"></td><td><input type="checkbox" formControlName="tuesday15"></td><td><input type="checkbox" formControlName="wednesday15"></td><td><input type="checkbox" formControlName="thursday15"></td><td><input type="checkbox" formControlName="friday15"></td><td><input type="checkbox" formControlName="saturday15"></td>
+                </tr>
+                <tr>
+                    <td>16:00</td><td><input type="checkbox" formControlName="sunday16"></td><td><input type="checkbox" formControlName="monday16"></td><td><input type="checkbox" formControlName="tuesday16"></td><td><input type="checkbox" formControlName="wednesday16"></td><td><input type="checkbox" formControlName="thursday16"></td><td><input type="checkbox" formControlName="friday16"></td><td><input type="checkbox" formControlName="saturday16"></td>
+                </tr>
+                <tr>
+                    <td>17:00</td><td><input type="checkbox" formControlName="sunday17"></td><td><input type="checkbox" formControlName="monday17"></td><td><input type="checkbox" formControlName="tuesday17"></td><td><input type="checkbox" formControlName="wednesday17"></td><td><input type="checkbox" formControlName="thursday17"></td><td><input type="checkbox" formControlName="friday17"></td><td><input type="checkbox" formControlName="saturday17"></td>
+                </tr>
+                <tr>
+                    <td>18:00</td><td><input type="checkbox" formControlName="sunday18"></td><td><input type="checkbox" formControlName="monday18"></td><td><input type="checkbox" formControlName="tuesday18"></td><td><input type="checkbox" formControlName="wednesday18"></td><td><input type="checkbox" formControlName="thursday18"></td><td><input type="checkbox" formControlName="friday18"></td><td><input type="checkbox" formControlName="saturday18"></td>
+                </tr>
+                <tr>
+                    <td>19:00</td><td><input type="checkbox" formControlName="sunday19"></td><td><input type="checkbox" formControlName="monday19"></td><td><input type="checkbox" formControlName="tuesday19"></td><td><input type="checkbox" formControlName="wednesday19"></td><td><input type="checkbox" formControlName="thursday19"></td><td><input type="checkbox" formControlName="friday19"></td><td><input type="checkbox" formControlName="saturday19"></td>
+                </tr>
+                <tr>
+                    <td>20:00</td><td><input type="checkbox" formControlName="sunday20"></td><td><input type="checkbox" formControlName="monday20"></td><td><input type="checkbox" formControlName="tuesday20"></td><td><input type="checkbox" formControlName="wednesday20"></td><td><input type="checkbox" formControlName="thursday20"></td><td><input type="checkbox" formControlName="friday20"></td><td><input type="checkbox" formControlName="saturday20"></td>
+                </tr>
+                <tr>
+                    <td>21:00</td><td><input type="checkbox" formControlName="sunday21"></td><td><input type="checkbox" formControlName="monday21"></td><td><input type="checkbox" formControlName="tuesday21"></td><td><input type="checkbox" formControlName="wednesday21"></td><td><input type="checkbox" formControlName="thursday21"></td><td><input type="checkbox" formControlName="friday21"></td><td><input type="checkbox" formControlName="saturday21"></td>
+                </tr>
+                <tr>
+                    <td>22:00</td><td><input type="checkbox" formControlName="sunday22"></td><td><input type="checkbox" formControlName="monday22"></td><td><input type="checkbox" formControlName="tuesday22"></td><td><input type="checkbox" formControlName="wednesday22"></td><td><input type="checkbox" formControlName="thursday22"></td><td><input type="checkbox" formControlName="friday22"></td><td><input type="checkbox" formControlName="saturday22"></td>
+                </tr>
+                <tr>
+                    <td>23:00</td><td><input type="checkbox" formControlName="sunday23"></td><td><input type="checkbox" formControlName="monday23"></td><td><input type="checkbox" formControlName="tuesday23"></td><td><input type="checkbox" formControlName="wednesday23"></td><td><input type="checkbox" formControlName="thursday23"></td><td><input type="checkbox" formControlName="friday23"></td><td><input type="checkbox" formControlName="saturday23"></td>
+                </tr>
+            </table>
+        </form></form>
         <br>
         <button (click)="selectTime()">Confirm</button>
     </div>
