@@ -63,6 +63,37 @@ export class SessionSchedulerPageComponent {
   timeSelectionHidden = true;
 
   selectAuto() {
+    let sendJson = {
+      username: this.currentUserService.username,
+      course: this.courseSelectionForm.value.course,
+    };
+    console.log(sendJson);
+    this.http.post('/api/autoSchedule', sendJson).subscribe(response => {
+      let json = JSON.parse(JSON.stringify(response))
+      console.log(json);
+      alert(json.response);
+      if(json.response == "success") {
+        let sendJson = {
+          studentname: this.currentUserService.username,
+          tutorname: json.tutor,
+          day: json.day,
+          hour: json.hour,
+        };
+        this.http.post('/api/createScheduledSession', sendJson).subscribe(response => {
+          let json = JSON.parse(JSON.stringify(response))
+          console.log(json);
+          if(json.response == "success") {
+            this.router.navigateByUrl('/home');
+          }
+        });
+      }
+    });
+
+
+
+
+
+
     this.router.navigateByUrl('/home');
   }
 

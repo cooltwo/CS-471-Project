@@ -292,12 +292,14 @@ app.post("/api/getNextSession", (req,res) => {
                     sessionJSON = JSON.parse(curr_data);
                     curr_day = parseInt(sessionJSON.day_of_week);
                     curr_hour = parseInt(sessionJSON.time_start);
-                    diff_day = trg_day - curr_day;
+                    diff_day = curr_day - trg_day;
                     if (diff_day < 0)
                     { diff_day = 7 + diff_day; }
-                    diff_hour = trg_hour - curr_hour;
-                    if (diff_hour < 0)
-                    { diff_hour = 7 + diff_hour; }
+                    diff_hour = curr_hour - trg_hour;
+                    if (diff_hour < 0) { 
+                        diff_hour = 24 + diff_hour; 
+                        diff_day = (6 + diff_day) % 7;
+                    }
                     curr_score = (diff_day * 24) + diff_hour;
                     if (curr_score < best_min_score) {
                         best_min_score = curr_score;
@@ -320,6 +322,59 @@ app.post('/api/listUserFiles', (req,res) => {
             res.json({response:"success", files:userJSON.userFiles})
         }
     });
+});
+
+app.post('/api/autoSchedule', (req,res) => {
+    course_path = "database/courses/" + req.body.course + ".json"
+    if (fs.existsSync(course_path)){
+        tutors_list = [];
+        fs.readdirSync('database/userinfo/').forEach(file => {
+            data = fs.readFileSync('database/userinfo/' + file)
+            dataJSON = JSON.parse(data);
+            if (dataJSON.userType == 1 && dataJSON.courses.includes(req.body.course)) {
+                tutors_list.push(dataJSON.username)
+            }
+        });
+        if (tutors_list.length == 0)
+        { res.json({response: "No tutors found for course."}) }
+        else{ 
+            student_path = "database/userinfo/" + req.body.username + ".json"
+            fs.readFile(student_path, (err, data_student) => {
+                if (err)
+                { res.json({response: "Student not found."}) }
+                else {
+                    day = -1;
+                    hour = -1;
+                    tutor = "";
+                    tutorloop:
+                    for (let x = 0; x < tutors_list.length; x++) {
+                        tutor_path = "database/userinfo/" + tutors_list[x] + ".json"
+                        data_tutor = fs.readFileSync(tutor_path)
+                        studentJSON = JSON.parse(data_student);
+                        tutorJSON = JSON.parse(data_tutor);
+                        for (let i = 0; i < 7; i++) {
+                            for (let j = 0; j < 24; j++) {
+                                if(studentJSON.available[i][j] && tutorJSON.available[i][j]) {
+                                    day = i;
+                                    hour = j;
+                                    tutor = tutors_list[x]
+                                    break tutorloop;
+                                }
+                            }
+                        }
+                    }
+                    if(day != -1 && hour != -1) {
+                        res.json({response: "success", tutor: tutor, day: day, hour: hour});
+                    }
+                    else {
+                        res.json({response: "No available times."});
+                    }
+                }
+            });
+        }
+    }
+    else
+    { res.json({response: "course not found"}) }
 });
 
 app.listen(port, () => {
