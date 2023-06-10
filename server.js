@@ -205,6 +205,77 @@ app.post('/api/myCourses', (req,res) => {
     });
 });
 
+app.post('/api/sharedTimes', (req,res) => {
+    student_path = "database/userinfo/" + req.body.studentname + ".json"
+    tutor_path = "database/userinfo/" + req.body.tutorname + ".json"
+    fs.readFile(student_path, (err, data_student) => {
+        if (err)
+        { res.json({response: "student not found"}) }
+        else {
+            fs.readFile(tutor_path, (err, data_tutor) => {
+                if (err)
+                { res.json({response: "tutor not found"}) }
+                else {
+                    studentJSON = JSON.parse(data_student);
+                    tutorJSON = JSON.parse(data_tutor);
+                    shared = AVAILABLE_INIT_ARRAY.slice(); // Copies the array
+                    for (let i = 0; i < 7; i++) {
+                        for (let j = 0; j < 24; j++) {
+                            shared[i][j] = studentJSON.available[i][j] && tutorJSON.available[i][j];
+                        }
+                    }
+                    res.json({response: "success", matches:shared})
+                }
+            });
+        }
+    });
+});
+
+app.post('/api/createScheduledSession', (req,res) => {
+    student_path = "database/userinfo/" + req.body.studentname + ".json"
+    tutor_path = "database/userinfo/" + req.body.tutorname + ".json"
+    s_day = req.body.day;
+    s_hour = req.body.hour;
+    fs.readFile("database/next_session_id.txt", (err, next_id_raw) => {
+        if (err)
+        { res.json({response: "cannot get session id"}) }
+        else {
+            next_id = parseInt(next_id_raw) + 1;
+            fs.writeFileSync("database/next_session_id.txt", next_id.toString());
+            fs.readFile(student_path, (err, data_student) => {
+                if (err)
+                { res.json({response: "student not found"}) }
+                else {
+                    fs.readFile(tutor_path, (err, data_tutor) => {
+                        if (err)
+                        { res.json({response: "tutor not found"}) }
+                        else {
+                            studentJSON = JSON.parse(data_student);
+                            tutorJSON = JSON.parse(data_tutor);
+                            studentJSON.available[s_day][s_hour] = False;
+                            tutorJSON.available[s_day][s_hour] = False;
+                            studentJSON.sessions.push(next_id);
+                            tutorJSON.sessions.push(next_id);
+                            
+                            session_obj = {session_id:next_id, userlist:[req.body.studentname, req.body.tutorname], day_of_week:s_day, time_start:s_hour, time_end:((s_hour + 1) % 24)};
+                            session_path = "database/sessions/" + next_id.toString() + ".json"
+                            fs.writeFile(session_path, JSON.stringify(session_obj, null, 2)), err => {
+                                if (err)
+                                { res.json({response: "cannot create session"}) }
+                                else {
+                                    writeFileSync(student_path, JSON.stringify(studentJSON, null, 2));
+                                    writeFileSync(tutor_path, JSON.stringify(tutorJSON, null, 2));
+                                    { res.json({response: "success"}) }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });
