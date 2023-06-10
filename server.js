@@ -276,6 +276,63 @@ app.post('/api/createScheduledSession', (req,res) => {
     });
 });
 
+app.post("/api/getNextSession", (req,res) => {
+    current_time = new Date();
+    trg_day = current_time.getDay();
+    trg_hour = current_time.getHour();
+    user_path = "database/userinfo/" + req.body.username + ".json";
+    fs.readFile(user_path, (err, data) => {
+        if (err)
+        { res.json({response: "user not found"}) }
+        else {
+            user_info = JSON.parse(data);
+            if (user_info.sessions.length == 0)
+            { res.json({response: "user has no sessions"}) }
+            else {
+                best_min = null;
+                best_min_score = (7 * 24) + 24;
+                no_errors = true;
+                user_info.sessions.forEach(session => {
+                    session_path = "database/sessions/" + session + ".json";
+                    fs.readFile(session_path, (err, curr_data) => {
+                        if (err)
+                        { res.json({response: "possible bad session id"}) }
+                        else {
+                            sessionJSON = JSON.parse(curr_data);
+                            curr_day = parseInt(sessionJSON.day_of_week);
+                            curr_hour = parseInt(sessionJSON.time_start);
+                            diff_day = trg_day - curr_day;
+                            if (diff_day < 0)
+                            { diff_day = 7 + diff_day; }
+                            diff_hour = trg_hour - curr_hour;
+                            if (diff_hour < 0)
+                            { diff_hour = 7 + diff_hour; }
+                            curr_score = (diff_day * 24) + diff_hour;
+                            if (curr_score < best_min_score) {
+                                best_min_score = curr_score;
+                                best_min = { ...sessionJSON };  // I think this will clone it (?)
+                            }
+                        }
+                    });
+                });
+                res.json({response:"success", session_info:sessionJSON})
+            }
+        }
+    });
+});
+
+app.post('/api/listUserFiles', (req,res) => {
+    user_path = "database/userinfo/" + req.body.username + ".json";
+    fs.readFile(user_path, (err, data) => {
+        if (err)
+        { res.json({response: "user not found"}) }
+        else {
+            userJSON = JSON.parse(data);
+            res.json({response:"success", files:userJSON.userFiles})
+        }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });
