@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Basic Video Call -- Agora</title>
+  <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="./video-session.css">
+</head>
+
+<body style="background-color:black;">
+  <div class="container-fluid banner">
+    <p class="banner-text">Tutoring Session</p>
+  </div>
+  
+  <div class="container">
+    <form id="join-form">
+      <div class="button-group">
+        <button id="join" type="submit" class="btn btn-primary btn-sm">Join</button>
+        <button id="leave" type="button" class="btn btn-primary btn-sm" disabled>Leave</button>
+      </div>
+    </form>
+
+    <div class="row video-group" id="camera-feeds">
+      <div class="w-100"></div>
+      <div class="col">
+        <div id="remote-playerlist"></div>
+      </div>
+
+      <div class="col">
+          <div id="local-player" class="player"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./vendor/jquery-3.4.1.min.js"></script>
+  <script src="./vendor/bootstrap.bundle.min.js"></script>
+  <script src="./AgoraRTC_N-4.17.2.js"></script>
+  <script src="./video-session.js"></script>
+</body>
+</html>
