@@ -9,6 +9,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AccountInformationPageComponent } from './account-information-page/account-information-page.component';
 import { SessionSchedulerPageComponent } from './session-scheduler-page/session-scheduler-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ClassContentPageComponent } from './class-content-page/class-content-page.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
         path: 'account-information',
         title: 'Account Information',
         component: AccountInformationPageComponent,
+      },
+      {
+        path: 'class-content',
+        title: 'Class Content',
+        component: ClassContentPageComponent,
       },
       {
         path: 'session-scheduler',

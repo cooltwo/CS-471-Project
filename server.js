@@ -377,6 +377,85 @@ app.post('/api/autoSchedule', (req,res) => {
     { res.json({response: "course not found"}) }
 });
 
+app.post('/api/contentUpload', (req,res) => {
+    let dir = "database/userfiles/" + req.body.username + "/";
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    req.files.file.mv(dir + req.files.file.name, function(err) {
+        if(err) {
+            res.json({response: "could not upload: " + err});
+        }
+        else {
+            let userInfoFileName = "database/userinfo/" + req.body.username + ".json";
+            fs.readFile(userInfoFileName, (err, data) => {
+                if(err) {
+                    res.json({response: "could not find userinfo file"});
+                }
+                else {
+                    let fileJson = JSON.parse(data);
+                    fileJson.userFiles.push(req.files.file.name)
+                    fs.writeFile(userInfoFileName, JSON.stringify(fileJson, null, 2), function writeJSON(err) {
+                        if(err) {
+                            res.json({response: "could not write to file"});
+                        }
+                        else {
+                            res.json({response: "success"});
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+app.post('/api/removeContent', (req,res) => {
+    let path = "database/userfiles/" + req.body.username + "/" + req.body.fileName;
+    fs.unlink(path, function(err) {
+        if(err) {
+            res.json({response: "could not remove file"});
+        }
+        else {
+            let userInfoFileName = "database/userinfo/" + req.body.username + ".json";
+            fs.readFile(userInfoFileName, (err, data) => {
+                if(err) {
+                    res.json({response: "could not find userinfo file"});
+                }
+                else {
+                    let fileJson = JSON.parse(data);
+                    let newUserFiles = []
+                    for(let i = 0; i < fileJson.userFiles.length; i++) {
+                        if(fileJson.userFiles[i] != req.body.fileName) {
+                            newUserFiles.push(fileJson.userFiles[i]);
+                        }
+                    }
+                    fileJson.userFiles = newUserFiles;
+                    fs.writeFile(userInfoFileName, JSON.stringify(fileJson, null, 2), function writeJSON(err) {
+                        if(err) {
+                            res.json({response: "could not write to file"});
+                        }
+                        else {
+                            res.json({response: "success"});
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+app.post('/api/downloadFile', (req,res) => {
+    let filePath = "database/userfiles/" + req.body.username + "/" + req.body.fileName;
+    res.download(filePath, function(err) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            console.log("download success");
+        }
+    })
+});
+
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });

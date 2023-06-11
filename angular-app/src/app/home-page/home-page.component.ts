@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomePageComponent {
 
   scheduleSessionHidden = true;
+  classContentHidden = true;
   manageAccountInfoHidden = true;
   enterSessionHidden = true;
   sessionDayOfWeek = "No next session";
@@ -21,6 +22,7 @@ export class HomePageComponent {
     }
     if(this.currentUserService.userType == 0 || this.currentUserService.userType == 1) {
       this.manageAccountInfoHidden = false;
+      this.classContentHidden = false;
     }
 
     let sendJson = {

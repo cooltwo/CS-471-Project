@@ -88,13 +88,6 @@ export class SessionSchedulerPageComponent {
         });
       }
     });
-
-
-
-
-
-
-    this.router.navigateByUrl('/home');
   }
 
   selectManual() {

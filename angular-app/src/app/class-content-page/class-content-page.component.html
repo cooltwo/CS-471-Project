@@ -1,1 +1,22 @@
-<p>class-content-page works!</p>
+<div class="container">
+    <h1>Class Content</h1>
+    <hr>
+    <div>
+        <h2>Upload Content</h2>
+        <p>(accepts pdf)</p>
+        <br>
+        <input type="file" class="fileUpload" (change)="onFileSelected($event)">
+        <br><br>
+    </div>
+    <hr>
+    <br><br>
+    <table class="file-table">
+        <div *ngFor="let file of fileList; let i=index">
+            <tr class="file-row"><td class="row-file-name">{{file}}</td><td><button class="download-button" (click)="downloadFile(i)">View</button></td><td><button class="remove-button" (click)="removeFile(i)">Remove</button></td></tr>
+        </div>
+    </table>
+    <br><br>
+    <hr>
+    <br>
+    <button routerLink="/home">Done</button>
+</div>
