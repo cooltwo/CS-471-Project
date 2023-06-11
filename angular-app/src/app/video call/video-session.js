@@ -23,15 +23,18 @@ $("#join-form").submit(async function (e) {
 
   try {
     options.appid = APP_ID; //get the constant app ID set earlier
-    options.channel = "main"; //generateChannel(); //generate the channel to be used
+    this.http.post('/api/getNextSession', sendJson).subscribe(response => {
+        let json = JSON.parse(JSON.stringify(response))
+        console.log(json);
+        if (json.response == "success") {
+            options.channel = json.session_id;
+        }
+    });
 
     await join(); //run the join function to join the session
-
-    $("#success-alert a").attr("href", `video-session.html?appid=${options.appid}&channel=${options.channel}`);
-    $("#success-alert").css("display", "block");
     
   } catch (error) {
-    console.error(error);
+    console.error("Could not join the session.");
   } finally {
     $("#leave").attr("disabled", false);
   }
@@ -41,12 +44,6 @@ $("#join-form").submit(async function (e) {
 $("#leave").click(function (e) {
   leave();
 })
-
-//create a custom channel based on session time
-async function generateChannel() {
-    //let numID = homePage.sessionDayOfWeek; TODO
-    return '../home-page/home-page.component'.sessionDayOfWeek;
-}
 
 //join the session
 async function join() {
