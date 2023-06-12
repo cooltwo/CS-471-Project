@@ -23,13 +23,7 @@ $("#join-form").submit(async function (e) {
 
   try {
     options.appid = APP_ID; //get the constant app ID set earlier
-    this.http.post('/api/getNextSession', sendJson).subscribe(response => {
-        let json = JSON.parse(JSON.stringify(response))
-        console.log(json);
-        if (json.response == "success") {
-            options.channel = json.session_id;
-        }
-    });
+    options.channel = "main";
 
     await join(); //run the join function to join the session
     
