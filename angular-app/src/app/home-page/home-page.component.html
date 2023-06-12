@@ -2,7 +2,7 @@
     <div class="next-session-container">
         <h2>Next Session</h2>
         <p>{{sessionDayOfWeek}}{{sessionTime}}</p>
-        <div [hidden]="enterSessionHidden"><button class="enter-session-button" onclick="window.location.href='../video call/video-session.html';">Enter Session</button></div>
+        <div [hidden]="enterSessionHidden"><button class="enter-session-button" onclick="window.open('/assets/video-call/video-session.html', '_blank');">Enter Session</button></div>
         <br>
     </div>
     <div class="button-container">
